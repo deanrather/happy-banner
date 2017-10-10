@@ -22,14 +22,14 @@ colour_percentage()
     else                         echo -en "$y$1%$w"; fi
 }
 
-if [ -z "$BANNER" ]
+if [ -z "$HAPPY_BANNER" ]
 then
   # banner="$(whoami) @ $(hostname)"
   banner="$(hostname)"
   strlen=${#banner}
   colwidth=$(($strlen*6))
 else
-  banner="$BANNER"
+  banner="$HAPPY_BANNER"
   colwidth=80
 fi
 
