@@ -1,24 +1,25 @@
 #!/bin/bash -e
-USAGE='setup.sh <dir> <banner>
-eg: setup.sh ~/.happy-banner MY-BANNER'
 
-if [ $# -lt 2 ]
-then
-	echo "usage: $USAGE"
-	exit 1
-fi
+# ask the user what banner they'd like, default to the hostname
+read -e -p "Banner (defaults to hostname): " banner
 
-dir=$1
-banner=$2
+# make sure the things happy-banner requires are installed
+which git     >> /dev/null || sudo apt-get install -y git     >> /dev/null
+which bc      >> /dev/null || sudo apt-get install -y bc      >> /dev/null
+which toilet  >> /dev/null || sudo apt-get install -y toilet  >> /dev/null
+which figlet  >> /dev/null || sudo apt-get install -y figlet  >> /dev/null
+which lolcat  >> /dev/null || sudo apt-get install -y lolcat  >> /dev/null
+which fortune >> /dev/null || sudo apt-get install -y fortune >> /dev/null
 
-which git     >> /dev/null || sudo apt-get install -y git
-which toilet  >> /dev/null || sudo apt-get install -y toilet
-which lolcat  >> /dev/null || sudo apt-get install -y lolcat
-which fortune >> /dev/null || sudo apt-get install -y fortune
+# copy the font over
+sudo mkdir -p /usr/share/figlet
+sudo cp happy-banner/happy-banner-font.flf /usr/share/figlet/
 
-echo "HAPPY_BANNER=$banner" >> ~/.bashrc
-grep -q "happy-banner.sh" ~/.bashrc || echo "source $dir/banner.sh" >> ~/.bashrc
+# generate the command that shows the banner
+cmd="BANNER=$banner source $(dirname $0)/banner.sh"
 
-$dir/banner.sh
+#add it to profile to auto-run on login
+grep -q "happy-banner.sh" ~/.bashrc || echo "$cmd" >> ~/.bashrc
 
-echo "happy-banner set-up!"
+# confirm that we're all-g
+echo 'happy-banner set-up! reload your terminal (or `source ~/.bashrc`) to see'

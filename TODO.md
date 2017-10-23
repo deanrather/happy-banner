@@ -1,0 +1,1 @@
+- [ ] update setup.sh to clear any existing happy-banner before adding new one

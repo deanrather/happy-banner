@@ -12,6 +12,19 @@ clear
 # 80 - 100 - red
 colour_percentage()
 {
+    # if no args, return
+    if [ $# -eq 0 ]
+    then
+        return
+    fi
+
+    # if non integer, echo it as-is
+    if ! [ "$1" -eq "$1" ]
+    then
+        echo "$1"
+        return
+    fi
+
     w="\e[0m"
     g="\e[0;32m";
     y="\e[0;33m";
@@ -22,20 +35,21 @@ colour_percentage()
     else                         echo -en "$y$1%$w"; fi
 }
 
-if [ -z "$HAPPY_BANNER" ]
+if [ -z "$BANNER" ]
 then
   # banner="$(whoami) @ $(hostname)"
   banner="$(hostname)"
   strlen=${#banner}
   colwidth=$(($strlen*6))
 else
-  banner="$HAPPY_BANNER"
+  banner="$BANNER"
   colwidth=80
 fi
 
 # see `ll /usr/share/figlet/*.flf` for list of fonts
+# or http://www.figlet.org/examples.html
 # see `toilet -F` list for list of filters
-toilet -F border -f standard -w "$colwidth" "  $banner  " | lolcat -S 108 -s 0.1
+toilet -F border -f happy-banner-font -w "$colwidth" "  $banner  " | lolcat -S 108 -s 0.1
 # toilet -F border -f standard "  $banner  "
 
 # Show Stats
