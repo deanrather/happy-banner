@@ -16,7 +16,9 @@ sudo mkdir -p /usr/share/figlet
 sudo cp happy-banner/happy-banner-font.flf /usr/share/figlet/
 
 # generate the command that shows the banner
-cmd="BANNER=$banner source $(dirname $0)/banner.sh"
+setup_script_path="$(realpath $0)";
+happy_banner_dir="$(dirname $setup_script_path)"
+cmd="BANNER=$banner source $happy_banner_dir/banner.sh"
 
 #add it to profile to auto-run on login
 grep -q "happy-banner.sh" ~/.bashrc || echo "$cmd" >> ~/.bashrc
