@@ -78,10 +78,14 @@ unset cpu_use_total cpu_core_count cpu_use_total disk_usage mem_usage mem_availa
 
 name=$(git config --global user.name)
 onSince=$(last -R $USER | grep -Eo "$(date +'%a %b %d') [0-9]+:[0-9]+" | tail -n 1 | grep -Eo "[0-9]+:[0-9]+")
-
+pstree_output=$(pstree -s $$)
+where=$(echo "$pstree_output" | sed 's/---pstree//' | sed 's/---bash//' | sed 's/---/ -> /g')
 
 # Show Welcome Message
+
 echo "      $(date) (since $onSince)"
 echo "      Welcome, $name"
+echo "      You are here: $where"
+echo ""
 fortune | fold -w 70 -s | sed  's/^/      /'
 echo ""
