@@ -2,6 +2,8 @@
 
 A happy banner to put at the top of your terminal
 
+![Happy Banner screenshot](happy-banner-screenshot.png)
+
 ## Setup
 
 ```
