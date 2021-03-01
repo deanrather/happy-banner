@@ -46,11 +46,22 @@ else
   colwidth=80
 fi
 
-# see `ll /usr/share/figlet/*.flf` for list of fonts
-# or http://www.figlet.org/examples.html
-# see `toilet -F` list for list of filters
-toilet -F border -f happy-banner-font -w "$colwidth" "  $banner  " | lolcat -S 108 -s 0.1
-# toilet -F border -f standard "  $banner  "
+termwidth=$(tput cols)
+
+# echo "colwidth=$colwidth"
+# echo "termwidth=$termwidth"
+
+if (( colwidth <= termwidth )); then
+  # see `ll /usr/share/figlet/*.flf` for list of fonts
+  # or http://www.figlet.org/examples.html
+  # see `toilet -F` list for list of filters
+  toilet -F border -f happy-banner-font -w "$colwidth" "  $banner  " | lolcat -S 108 -s 0.1
+  # toilet -F border -f standard "  $banner  "
+else
+  echo ""
+  echo "      $banner" | lolcat
+  echo ""
+fi
 
 # Show Stats
 tput sc # remember cursor position so we can overwrite the following output
